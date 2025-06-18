@@ -39,4 +39,3 @@ jobs:
 
     - name: 📤 Push image to GHCR
       run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
-#
