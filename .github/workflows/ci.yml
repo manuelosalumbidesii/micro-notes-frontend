@@ -15,7 +15,7 @@ jobs:
 
     # 🐳 DockerHub Build & Push
     - name: 🔨 Build Docker image (DockerHub)
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/micro-notes-frontend:latest .
+      run: docker build -t manuelosalumbidesii/micro-notes-frontend:latest .
 
     - name: 🔐 Login to DockerHub
       uses: docker/login-action@v3
@@ -24,9 +24,9 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: 📤 Push image to DockerHub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/micro-notes-frontend:latest
+      run: docker push manuelosalumbidesii/micro-notes-frontend:latest
 
-    # 🐙 GHCR Tag & Push (Hardcoded for testing)
+    # 🐙 GHCR Tag & Push
     - name: 🏷️ Tag image for GHCR
       run: docker tag manuelosalumbidesii/micro-notes-frontend:latest ghcr.io/manuelosalumbidesii/micro-notes-frontend:latest
 
