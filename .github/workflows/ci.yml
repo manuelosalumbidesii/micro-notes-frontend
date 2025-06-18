@@ -20,10 +20,8 @@ jobs:
     # Set Docker Image Tag
     ##############################
     - name: 🏷️ Set Docker image tag
-      id: vars
       run: |
-        TAG="v1.0.${{ github.run_number }}"
-        echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+        echo "IMAGE_TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
 
     ##############################
     # DockerHub Section
@@ -56,9 +54,7 @@ jobs:
 
     - name: 🐙 Tag & Push to GHCR
       run: |
-        IMAGE_NAME=ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend
-        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} $IMAGE_NAME:${{ env.IMAGE_TAG }}
-        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} $IMAGE_NAME:latest
-        docker push $IMAGE_NAME:${{ env.IMAGE_TAG }}
-        docker push $IMAGE_NAME:latest
-#
+        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:${{ env.IMAGE_TAG }}
+        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+        docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:${{ env.IMAGE_TAG }}
+        docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
