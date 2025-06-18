@@ -65,16 +65,16 @@ jobs:
         username: ${{ secrets.GHCR_USERNAME }}
         password: ${{ secrets.GHCR_PAT }}
 
-    ##############################
     # 🐙 Tag & Push Docker image to GHCR
-    ##############################
+
     - name: 🐙 Tag & Push to GHCR
       run: |
-        IMAGE="ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}"
-        GHCR_IMAGE="ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend"
+        IMAGE=ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}
+        GHCR_IMAGE=ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend
 
-        docker tag "$IMAGE" "$GHCR_IMAGE:${{ env.IMAGE_TAG }}"
-        docker tag "$IMAGE" "$GHCR_IMAGE:latest"
+        echo "Tagging image: $IMAGE -> $GHCR_IMAGE:${{ env.IMAGE_TAG }}"
+        docker tag $IMAGE $GHCR_IMAGE:${{ env.IMAGE_TAG }}
+        docker tag $IMAGE $GHCR_IMAGE:latest
 
-        docker push "$GHCR_IMAGE:${{ env.IMAGE_TAG }}"
-        docker push "$GHCR_IMAGE:latest"
+        docker push $GHCR_IMAGE:${{ env.IMAGE_TAG }}
+        docker push $GHCR_IMAGE:latest
