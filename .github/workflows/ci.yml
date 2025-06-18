@@ -27,6 +27,9 @@ jobs:
         docker build -t ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} .
         docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ivosalumbides/micro-notes-frontend:latest
 
+    - name: ✅ Verify built images
+      run: docker images
+
     - name: 📤 Push Docker image to DockerHub
       run: |
         docker push ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}
