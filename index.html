@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📒 Micro Notes App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+    li {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #eef;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 My Notes</h1>
+    <ul id="notes-list"></ul>
+    <h2>Add Note</h2>
+    <input type="text" id="title" placeholder="Title" />
+    <input type="text" id="content" placeholder="Content" />
+    <button onclick="addNote()">Add</button>
+  </div>
+
+  <script>
+    function fetchNotes() {
+      fetch('/api/notes')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('notes-list');
+          list.innerHTML = '';
+          data.forEach(note => {
+            const li = document.createElement('li');
+            li.textContent = `${note.title}: ${note.content}`;
+            list.appendChild(li);
+          });
+        });
+    }
+
+    function addNote() {
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, content })
+      }).then(() => {
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+        fetchNotes();
+      });
+    }
+
+    fetchNotes();
+  </script>
+</body>
+</html>
