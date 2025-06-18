@@ -26,16 +26,16 @@ jobs:
     - name: 📤 Push image to DockerHub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/micro-notes-frontend:latest
 
-    # 🐙 GHCR Tag & Push
+    # 🐙 GHCR Tag & Push (Hardcoded for testing)
     - name: 🏷️ Tag image for GHCR
-      run: docker tag ${{ secrets.DOCKER_USERNAME }}/micro-notes-frontend:latest ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+      run: docker tag manuelosalumbidesii/micro-notes-frontend:latest ghcr.io/manuelosalumbidesii/micro-notes-frontend:latest
 
     - name: 🔐 Login to GitHub Container Registry (GHCR)
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
-        username: ${{ secrets.GHCR_USERNAME }}
+        username: manuelosalumbidesii
         password: ${{ secrets.GHCR_PAT }}
 
     - name: 📤 Push image to GHCR
-      run: docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+      run: docker push ghcr.io/manuelosalumbidesii/micro-notes-frontend:latest
