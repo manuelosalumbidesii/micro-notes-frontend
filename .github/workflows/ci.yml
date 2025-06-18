@@ -1,4 +1,4 @@
-name: Hybrid CI/CD - Frontend (DockerHub + GHCR)
+name: Hybrid CI/CD - Frontend (DockerHub + GitHub OCI)
 
 on:
   push:
@@ -10,47 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    ###################################
-    # 1. Checkout the code
-    ########################################
     - name: 🧾 Checkout code
       uses: actions/checkout@v3
 
-    ########################################
-    # 2. Set version tag (v1.0.X)
-    ########################################
-    - name: 🏷️ Set image version
-      run: |
-        echo "IMAGE_TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
+    - name: 🏷️ Set Docker image tag
+      run: echo "IMAGE_TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
 
-    ########################################
-    # 3. Build Docker image
-    ########################################
-    - name: 🐳 Build Docker image
-      run: |
-        docker build -t ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} .
-        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ivosalumbides/micro-notes-frontend:latest
-
-    ########################################
-    # 4. Login to DockerHub
-    ########################################
     - name: 🔐 Login to DockerHub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    ########################################
-    # 5. Push image to DockerHub
-    ########################################
-    - name: 📤 Push to DockerHub
+    - name: 🔨 Build Docker image (DockerHub)
+      run: |
+        docker build -t ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} .
+        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ivosalumbides/micro-notes-frontend:latest
+
+    - name: 📤 Push Docker image to DockerHub
       run: |
         docker push ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}
         docker push ivosalumbides/micro-notes-frontend:latest
 
-    ########################################
-    # 6. Login to GHCR
-    ########################################
     - name: 🔐 Login to GHCR
       uses: docker/login-action@v3
       with:
@@ -58,13 +39,13 @@ jobs:
         username: ${{ secrets.GHCR_USERNAME }}
         password: ${{ secrets.GHCR_PAT }}
 
-    ########################################
-    # 7. Tag and push to GHCR
-    ########################################
     - name: 🐙 Tag & Push to GHCR
       run: |
-        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:${{ env.IMAGE_TAG }}
-        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+        IMAGE=ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}
+        GHCR_IMAGE=ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend
 
-        docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:${{ env.IMAGE_TAG }}
-        docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+        docker tag $IMAGE $GHCR_IMAGE:${{ env.IMAGE_TAG }}
+        docker tag $IMAGE $GHCR_IMAGE:latest
+
+        docker push $GHCR_IMAGE:${{ env.IMAGE_TAG }}
+        docker push $GHCR_IMAGE:latest
