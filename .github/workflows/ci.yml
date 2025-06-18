@@ -54,7 +54,9 @@ jobs:
 
     - name: 🐙 Tag & Push to GHCR
       run: |
+        IMAGE_TAG="${{ env.IMAGE_TAG }}"
         docker tag ivosalumbides/micro-notes-frontend:$IMAGE_TAG ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:$IMAGE_TAG
         docker tag ivosalumbides/micro-notes-frontend:$IMAGE_TAG ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
         docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:$IMAGE_TAG
         docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+
