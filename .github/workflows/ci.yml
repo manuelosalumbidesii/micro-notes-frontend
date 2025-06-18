@@ -58,3 +58,4 @@ jobs:
         docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
         docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:${{ env.IMAGE_TAG }}
         docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend:latest
+
