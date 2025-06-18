@@ -15,7 +15,7 @@ jobs:
 
     # 🐳 DockerHub Build & Push
     - name: 🔨 Build Docker image (DockerHub)
-      run: docker build -t manuelosalumbidesii/micro-notes-frontend:latest .
+      run: docker build -t ivosalumbides/micro-notes-frontend:latest .
 
     - name: 🔐 Login to DockerHub
       uses: docker/login-action@v3
