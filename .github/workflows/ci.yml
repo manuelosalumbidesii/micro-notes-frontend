@@ -24,7 +24,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: 📤 Push image to DockerHub
-      run: docker push manuelosalumbidesii/micro-notes-frontend:latest
+      run: docker push ivosalumbides/micro-notes-frontend:latest
 
     # 🐙 GHCR Tag & Push
     - name: 🏷️ Tag image for GHCR
