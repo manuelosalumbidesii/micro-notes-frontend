@@ -34,12 +34,12 @@ jobs:
 
     - name: 🔨 Build Docker Image (DockerHub)
       run: |
-        docker build -t ivosalumbides/micro-notes-frontend:$IMAGE_TAG .
-        docker tag ivosalumbides/micro-notes-frontend:$IMAGE_TAG ivosalumbides/micro-notes-frontend:latest
+        docker build -t ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} .
+        docker tag ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }} ivosalumbides/micro-notes-frontend:latest
 
     - name: 📤 Push Docker Image (DockerHub)
       run: |
-        docker push ivosalumbides/micro-notes-frontend:$IMAGE_TAG
+        docker push ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}
         docker push ivosalumbides/micro-notes-frontend:latest
 
     ##############################
@@ -62,5 +62,3 @@ jobs:
 
         docker push $GHCR_IMAGE:${{ env.IMAGE_TAG }}
         docker push $GHCR_IMAGE:latest
-
-
