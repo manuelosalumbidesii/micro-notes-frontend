@@ -20,7 +20,9 @@ jobs:
     # 🏷️ Set Docker Image Tag
     ##############################
     - name: 🏷️ Set Docker image tag
-      run: echo "IMAGE_TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
+      run: |
+        echo "IMAGE_TAG=v1.0.${{ github.run_number }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG set to v1.0.${{ github.run_number }}"
 
     ##############################
     # 🔐 Login to DockerHub
@@ -64,9 +66,9 @@ jobs:
         password: ${{ secrets.GHCR_PAT }}
 
     ##############################
-    # 🐙 Tag & Push to GHCR
+    # 🐙 Tag & Push Docker image to GHCR
     ##############################
-    - name: 🐙 Tag & Push Docker image to GHCR
+    - name: 🐙 Tag & Push to GHCR
       run: |
         IMAGE="ivosalumbides/micro-notes-frontend:${{ env.IMAGE_TAG }}"
         GHCR_IMAGE="ghcr.io/${{ secrets.GHCR_USERNAME }}/micro-notes-frontend"
@@ -76,4 +78,3 @@ jobs:
 
         docker push "$GHCR_IMAGE:${{ env.IMAGE_TAG }}"
         docker push "$GHCR_IMAGE:latest"
-
