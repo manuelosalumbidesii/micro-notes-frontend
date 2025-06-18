@@ -76,3 +76,4 @@ jobs:
 
         docker push "$GHCR_IMAGE:${{ env.IMAGE_TAG }}"
         docker push "$GHCR_IMAGE:latest"
+
